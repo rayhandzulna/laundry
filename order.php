@@ -593,7 +593,7 @@ $(document).ready(function() {
 
 $("#qty").change(function() {
     var qtyValue = document.getElementById('qty').value;
-    var priceValue = document.getElementById('harga').value;
+    let priceValue = document.getElementById('harga').value;
     var totalPrice = qtyValue * priceValue;
 
 
@@ -602,8 +602,6 @@ $("#qty").change(function() {
 
     document.getElementById("totalPrice").innerHTML =
         ` <b><h4>Total Harga: ${totalPrice}</h4></b>`;
-
-    $('input[name=harga]').val(totalPrice);
 
 });
 </script>
