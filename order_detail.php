@@ -1,12 +1,23 @@
 <?php
 include "proses/connect.php";
-$query = mysqli_query($conn, "SELECT o.id, o.qty, o.notes, o.invoice_id, o.status, o.jam, o.tanggal, u.username, u.level, u.nama, u.nohp, u.alamat, d.nama_paket, d.keterangan, d.harga, SUM(d.harga*o.qty) AS harganya from tb_order o, tb_user u, tb_daftar_paket d WHERE o.user_id = u.id_user AND o.packet_id = d.id_paket AND o.status IN(1,2) GROUP BY o.id HAVING o.invoice_id = '$_GET[order]' ");
+if($hasil['level'] == 4){
+$query = mysqli_query($conn, "SELECT o.id, o.qty, o.notes, o.invoice_id, o.status, o.jam, o.tanggal, u.username, u.level, u.nama, u.nohp, u.alamat, d.nama_paket, d.keterangan, d.harga, SUM(d.harga*o.qty) AS harganya from tb_order o, tb_user u, tb_daftar_paket d WHERE o.user_id = u.id_user AND o.packet_id = d.id_paket AND o.status IN(1,2) GROUP BY o.id AND o.invoice_id = '$_GET[order]'");
 while ($record = mysqli_fetch_array($query)) {
     $result[] = $record;
     $kode = $record['invoice_id'];
     $nohp = $record['nohp'];
     $alamat = $record['alamat'];
     $pelanggan = $record['nama'];
+}
+}else{
+  $query = mysqli_query($conn, "SELECT o.id, o.qty, o.notes, o.invoice_id, o.status, o.jam, o.tanggal, u.username, u.level, u.nama, u.nohp, u.alamat, d.nama_paket, d.keterangan, d.harga, SUM(d.harga*o.qty) AS harganya from tb_order o, tb_user u, tb_daftar_paket d WHERE o.user_id = u.id_user AND o.packet_id = d.id_paket GROUP BY o.id AND o.invoice_id = '$_GET[order]'");
+while ($record = mysqli_fetch_array($query)) {
+    $result[] = $record;
+    $kode = $record['invoice_id'];
+    $nohp = $record['nohp'];
+    $alamat = $record['alamat'];
+    $pelanggan = $record['nama'];
+}  
 }
 $select_user = mysqli_query($conn, "SELECT id_user, username, nama, nohp, alamat FROM tb_user");
 $select_service = mysqli_query($conn, "SELECT id_paket, nama_paket, harga FROM tb_daftar_paket"); 
